@@ -1,4 +1,4 @@
-# On-Premises Lakehouse Architecture for MonFin
+# On-Premises Lakehouse Architecture for MonFin with dbt
 
 ## **Why a Lakehouse Architecture Fits MonFin**
 
@@ -50,7 +50,7 @@
 
 ---
 
-## **Proposed On-Premises Lakehouse Architecture for MonFin**
+## **Proposed On-Premises Lakehouse Architecture for MonFin with dbt**
 
 ### **1. Data Ingestion Layer**
 - **Purpose**: Ingest data from multiple sources (KBO, NBB, ANG, FOD Fin, etc.).
@@ -64,17 +64,20 @@
 ### **2. Storage Layer**
 - **Purpose**: Store raw and processed data in a scalable, secure manner.
 - **Tools**:
-  - **Delta Lake** or **Apache Iceberg** for structured and semi-structured data.
   - **Hadoop Distributed File System (HDFS)** or **MinIO** for scalable, on-premises object storage.
+  - **Apache Iceberg** or **Delta Lake** as the **table format** to manage metadata and enable advanced features like schema evolution, time travel, and efficient querying.
 
 ---
 
-### **3. Processing Layer**
-- **Purpose**: Transform and preprocess data for analysis.
+### **3. Transformation Layer with dbt**
+- **Purpose**: Transform raw data into clean, structured datasets for analysis.
 - **Tools**:
-  - **Apache Spark** for large-scale data processing.
-  - **Apache Flink** for real-time stream processing.
-  - **On-premises clusters** (e.g., Kubernetes or YARN) for resource management.
+  - **dbt (Data Build Tool)**: 
+    - Use dbt to define **SQL-based transformations** in a modular and reusable way.
+    - Leverage dbt's **version control** and **testing capabilities** to ensure data quality.
+    - Create **data models** that aggregate, join, and enrich data from multiple sources.
+  - **dbt Core**: Use the open-source version of dbt for on-premises deployment.
+  - **dbt Cloud**: If preferred, use dbt Cloud for a managed experience (requires internet access, so ensure compliance with security policies).
 
 ---
 
@@ -99,18 +102,29 @@
 ### **6. Security and Governance Layer**
 - **Purpose**: Ensure data security, compliance, and governance.
 - **Tools**:
-  - **Apache Ranger** or **Sentry** for access control.
-  - **Apache Atlas** for data governance and metadata management.
-  - **Great Expectations** or **Deequ** for data quality checks.
+  - **Access Control for Object Storage**:
+    - **MinIO Access Control**: Use MinIO's built-in **Identity and Access Management (IAM)** and **Bucket Policies** to control access to object storage.
+    - **Open Policy Agent (OPA)**: A flexible, open-source tool for policy-based access control across multiple systems, including MinIO.
+  - **Data Governance**:
+    - **Apache Atlas** for metadata management and data lineage.
+  - **Data Quality**:
+    - **Great Expectations** or **Deequ** for data quality checks.
 
 ---
 
-## **Benefits of an On-Premises Lakehouse for MonFin**
-1. **Data Sovereignty**: Sensitive police data remains within the police infrastructure.
-2. **Scalability**: Handle large datasets efficiently with on-premises clusters.
-3. **Advanced Analytics**: Enable machine learning and real-time analytics.
-4. **Customization**: Tailor the system to meet the specific needs of police units.
-5. **Security**: Ensure compliance with strict data privacy and security regulations.
+## **Benefits of Using dbt in MonFin**
+1. **Modular and Reusable Transformations**:
+   - Define transformations in **SQL** and organize them into modular data models.
+   - Reuse models across different parts of the pipeline.
+2. **Data Quality and Testing**:
+   - Use dbt's built-in **testing framework** to ensure data accuracy and consistency.
+   - Validate data at every stage of the transformation process.
+3. **Version Control**:
+   - Track changes to data models using **Git**, enabling collaboration and rollback if needed.
+4. **Documentation**:
+   - Automatically generate **data documentation** to help police analysts understand the data.
+5. **Scalability**:
+   - dbt works seamlessly with scalable data warehouses and lakehouse architectures.
 
 ---
 
@@ -118,10 +132,11 @@
 1. **Evaluate On-Premises Infrastructure**:
    - Assess existing hardware and storage capabilities.
    - Plan for scaling storage and compute resources as needed.
-2. **Choose Open-Source Tools**:
-   - Select tools like **Delta Lake**, **Apache Spark**, and **MLflow** for data processing and analytics.
+2. **Set Up dbt**:
+   - Install **dbt Core** on your on-premises infrastructure.
+   - Configure dbt to connect to your data storage (e.g., HDFS, MinIO) and table format (e.g., Apache Iceberg, Delta Lake).
 3. **Develop a Proof of Concept (PoC)**:
-   - Build a small-scale lakehouse to test data ingestion, processing, and visualization for MonFin.
+   - Build a small-scale lakehouse with dbt to test data ingestion, transformation, and visualization for MonFin.
 4. **Engage Stakeholders**:
    - Work with police units to define requirements for dashboards, scoring mechanisms, and data sources.
 5. **Implement Security Measures**:
@@ -129,16 +144,18 @@
 
 ---
 
-## **Example Tools for On-Premises Lakehouse**
+## **Example Tools for On-Premises Lakehouse with dbt**
 | **Layer**               | **Tools**                                                                 |
 |--------------------------|---------------------------------------------------------------------------|
 | **Data Ingestion**       | Apache Kafka, Apache NiFi, Talend, Pentaho                                |
-| **Storage**              | Delta Lake, Apache Iceberg, HDFS, MinIO                                   |
+| **Storage**              | HDFS, MinIO                                                               |
+| **Table Format**         | Apache Iceberg, Delta Lake                                                |
+| **Transformation**       | **dbt Core**, SQL-based transformations                                   |
 | **Processing**           | Apache Spark, Apache Flink, Kubernetes, YARN                              |
 | **Analytics & ML**       | MLflow, Scikit-learn, TensorFlow, PyTorch, Jupyter Notebooks              |
 | **Visualization & Query**| Power BI (on-prem), Tableau (on-prem), Apache Superset, Presto, Trino     |
-| **Security & Governance**| Apache Ranger, Apache Atlas, Great Expectations, Deequ                   |
+| **Security & Governance**| **MinIO IAM**, **Open Policy Agent (OPA)**, Apache Atlas, Great Expectations, Deequ |
 
 ---
 
-This **on-premises lakehouse architecture** ensures that MonFin can handle sensitive police data securely while providing the scalability, flexibility, and advanced analytics needed to combat financial crime effectively.
+This **on-premises lakehouse architecture with dbt** ensures that MonFin can handle sensitive police data securely while providing the scalability, flexibility, and advanced analytics needed to combat financial crime effectively. Let me know if you need further assistance!
