@@ -128,6 +128,3 @@
 5. **Ensure Ongoing Support**:
    - Establish a team for ongoing maintenance, updates, and user support.
 
----
-
-This Markdown document provides a clear roadmap for developing the MonFin screening tool, focusing on data integration, user customization, and proactive analysis to combat financial crime effectively. Let me know if you need further assistance!
